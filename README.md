@@ -1,6 +1,5 @@
-# Hack The Box
+# Cybersecurity Learnings
 
-This project contains writeups to the solved hack the box machines
-
+This repository contains my cybersecurity learnings
 
 
