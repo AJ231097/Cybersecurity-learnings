@@ -1,0 +1,73 @@
+LATE MACHINE 
+
+nmap -sV -sC -O -T4 -n -Pn -oA fastscan 10.10.11.156
+
+Got to know that port 22 and port 80 are open
+
+Pointed to the IP in the browser which revealed a website. Scrolled down a little bit and found a hyper link which takes us to a page images.late.htb
+Added this url in /etc/hosts file
+
+images.late.htb is a page where we can upload an image and the page will retrieve a text document
+So images.late.htb is an application which works on Flask language. Flask is a small and lightweight Python web framework that provides useful tools and features that make creating web applications in Python easier.
+
+Googled around on how to hack flask web application and got to know about Jinja and Werkzeug WSGI Toolkit. So Jinja is a template engine and googled around template engines and got to know about SSTI(Server Side Template Injection).
+
+Used this link to gain more insight into SSTI (https://book.hacktricks.xyz/pentesting-web/ssti-server-side-template-injection)
+
+I used the first example where I just copy pasted the example in vi editor and took a screenshot of the example and uploaded the png or jpg image to the flask web application. Example used:
+
+{{7*7}}
+${7*7}
+<%= 7*7 %>
+${{7*7}}
+#{7*7}
+
+
+When screenshot of the example is taken and uploaded to the application I got a results.txt file which has the results of the above expressions. Skimming through the above link we got a payload where we can retrieve /etc/passwd file.
+
+Payload used:
+{{ get_flashed_messages.__globals__.__builtins__.open("/etc/passwd").read() }} 
+
+we got the users list in which 2 users has /bin/bash 
+1) root
+2) svc_acc
+
+since I coudn't get into root, I tried with svc_acc. 
+
+
+But to do the ssh we need a password or ssh key. since /etc/shadow file's access is denied, I tried to get the ssh keys. Usually ssh keys when generated are stored in following path
+/home/{user_account}/.ssh/id_rsa : This is private key. Once if we get this key, we can login to the machine without password.
+
+
+Payload Used:
+
+{{ get_flashed_messages.__globals__.__builtins__.open("/home/svc_acc/.ssh/id_rsa").read() }}
+
+
+which returned the private key in results.txt file. Used this key to login into the machine as public key is present in the machine.
+
+
+ssh -i results.txt svc_acc@10.10.11.156
+
+And we logged into the machine
+
+the user.txt flag is in the home directory of the user
+
+
+Privilege Escalation:
+
+the home directory also has linpeas.sh script which searches for potential attack points for privilege escalation in linux machines
+
+I executed the script which highlighted one directory which is /usr/local/sbin which has a script called ssh-alert.sh
+
+On analyzing the script I got to know that the script triggers whenever there is a ssh login on the machine.
+
+I tried modifying contents of the file but I couldn't modify then I checked for the permissions for the file by giving lsattr which shows a and e which means we can only append some data to the file but cannot modify the contents.
+
+I tried appending the following line to the script
+
+cat /root/root.txt >> /home/svc_acc/root_file.txt  
+
+When logging in to the machine triggers the script and copies the contents to the root_file.txt in svc_acc home directory. 
+
+Open another terminal and try logging in using ssh with the key we copied and check the home directory of svc_acc. We have the root flag.
