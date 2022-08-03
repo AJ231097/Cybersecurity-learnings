@@ -1,0 +1,28 @@
+Malware Analysis 2014-11-16 (Exploit Kit)
+
+Level 1
+
+1) 172.16.165.165
+
+2) K34EN6W3N-PC
+
+3) f0:19:af:02:9b:f1
+
+4) 82.150.140.30
+
+5) www.ciniholland.nl
+
+6) 37.200.69.143 & stand.trustandprobaterealty.com
+
+7) stand.trustandprobaterealty.com
+
+
+Level 2
+
+1) http://24corp-shop.com
+
+2) flash exploit and java exploit
+
+3) 3
+
+4) 
