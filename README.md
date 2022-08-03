@@ -1,6 +1,6 @@
 # Cybersecurity Learnings
 
-This repository contains my cybersecurity learnings
+This repository consists of malware-analysis learnings
 
 
 
