@@ -11,3 +11,25 @@ Level 1
 5) http://qwe.mvdunalterableairreport.net/
 
 6) 192.99.198.158
+
+More Advanced Questions
+
+
+1) From Virus Total tool
+
+ET TROJAN Zeus GameOver Possible DGA NXDOMAIN Responses [2018316]
+ET CURRENT_EVENTS 32-byte by 32-byte PHP EK Gate with HTTP POST [2018442]
+ET TROJAN Bedep SSL Cert [2019645]
+ET TROJAN Possible Bedep Connectivity Check (2) [2020491]
+
+
+2) Angler Exploit Kit
+
+3) http://lifeinsidedetroit.com/02024870e4644b68814aadfbb58a75bc.php?q=e8bd3799ee8799332593b0b9caa1f426 
+
+Wireshark Filter: ip.addr==192.99.198.158
+Got the ip address from packet total tool ( Tab: Malicious Activity, Timestamp: 2014-12-04 18:27:30 Z)
+
+4) 173.201.198.128
+
+5) tcp.stream eq 64
