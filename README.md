@@ -31,6 +31,9 @@ Therefore, I often add DNS activity when reviewing a pcap to see if any of these
 
 Trickbot Infection:
 --------------
+Flowchart of Trickbot Infection
+![](https://unit42.paloaltonetworks.com/wp-content/uploads/2019/11/word-image-61-1024x554.png)
+
 
 1.  First two bytes of the file show as ASCII characters <mark>PK</mark> then the file is a zip archive
 
