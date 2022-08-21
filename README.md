@@ -29,7 +29,7 @@ Therefore, I often add DNS activity when reviewing a pcap to see if any of these
 
 <mark>(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)</mark>
 
-Some pointers:
+Trickbot Infection:
 --------------
 
 1.  First two bytes of the file show as ASCII characters <mark>PK</mark> then the file is a zip archive
