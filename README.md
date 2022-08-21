@@ -32,6 +32,12 @@ Therefore, I often add DNS activity when reviewing a pcap to see if any of these
 Some pointers:
 --------------
 
-1.  First two bytes of the file show as ASCII characters <mark>PK</mark> then the file is a zip archive.
+1.  First two bytes of the file show as ASCII characters <mark>PK</mark> then the file is a zip archive
 
-2.  First two bytes of the file show as ASCII characters <mark>MZ</mark> then the file is either an EXE or a DLL file.
+2.  First two bytes of the file show as ASCII characters <mark>MZ</mark> then the file is either an EXE or a DLL file
+
+3. HTTP POST requests ending in <mark>81</mark> send cached password data from web browsers, email clients, and other application
+
+4. HTTP POST requests ending in <mark>83</mark> send form data submitted by applications like web browsers
+
+5. We can find system information sent through HTTP POST requests ending in <mark>90</mark>
