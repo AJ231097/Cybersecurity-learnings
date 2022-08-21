@@ -31,7 +31,7 @@ Therefore, I often add DNS activity when reviewing a pcap to see if any of these
 
 Trickbot Infection:
 --------------
-Flowchart of Trickbot Infection
+#### Flowchart of Trickbot Infection ####
 ![](https://unit42.paloaltonetworks.com/wp-content/uploads/2019/11/word-image-61-1024x554.png)
 
 
