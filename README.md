@@ -1,3 +1,5 @@
+# Things to Remember
+
 ## Filters for Web-Based Infection Traffic:
 
 1. HTTP traffic over UDP port 1900 is Simple Service Discovery Protocol (SSDP). SSDP is a protocol used to discover Plug & Play devices, and it is not associated with normal web traffic. Therefore, I filter this out using the following expression:
