@@ -44,3 +44,41 @@ Trickbot Infection:
 4. HTTP POST requests ending in <mark>83</mark> send form data submitted by applications like web browsers
 
 5. We can find system information sent through HTTP POST requests ending in <mark>90</mark>
+
+
+
+Emotet Infection:
+-------------------
+
+Emotet is an information-stealer first reported in 2014 as banking malware. It has since evolved with additional functions such as a dropper, distributing other malware families like Gootkit, IcedID, Qakbot and Trickbot.
+
+#### Chain of Events for an Emotet Infection ####
+
+Emotet is commonly distributed through malicious spam (malspam) emails. The critical step in an Emotet infection chain is a Microsoft Word document with macros designed to infect a vulnerable Windows host.
+
+![](https://unit42.paloaltonetworks.com/wp-content/uploads/2021/01/word-image-30.jpeg)
+
+
+#### Distribution Methods ####
+
+![](https://unit42.paloaltonetworks.com/wp-content/uploads/2021/01/word-image-31.jpeg)
+
+#### Flowchart of Emotet Activity ####
+
+![](https://unit42.paloaltonetworks.com/wp-content/uploads/2021/01/word-image-32.jpeg)
+
+
+Malspam spreading Emotet uses different techniques to distribute these Word documents.
+
+The malspam may contain an attached Microsoft Word document or have an attached ZIP archive containing the Word document. In recent months, we have seen several examples where these ZIP archives are password-protected. Some emails distributing Emotet do not have any attachments. Instead, they contain a link to download the Word document.
+
+In previous years, malspam pushing Emotet has also used PDF attachments with embedded links to deliver these Emotet Word documents.
+
+After the Word document is delivered, if a victim opens the document and enables macros on a vulnerable Windows host, the host is infected with Emotet.
+
+From a traffic perspective, we see the following steps from an Emotet Word document to an Emotet infection:
+
+1. Web traffic to retrieve the initial binary.
+2. Encoded/encrypted command and control (C2) traffic over HTTP.
+3. Additional infection traffic if Emotet drops follow-up malware.
+4. SMTP traffic if Emotet uses the infected host as a spambot.
