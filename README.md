@@ -41,7 +41,8 @@ Identifying Non-Malicious Activity:
 - **File Transfers Over SMB**
 - **Tor Traffic**
 
-###Operating System Traffic
+Operating System Traffic:
+-------------------------
 If you investigate an alert for Windows Malware and traffic from the internal IP Address reveals it is not a Windows host, then we can resolve the alert. Check for the User-Agent sting by following TCP Stream of an associated packet to find out the operating system of the host.
 
 Non-malicious Windows 10 activity domains
