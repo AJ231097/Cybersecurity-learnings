@@ -28,3 +28,7 @@ In some cases, post-infection traffic will not be web-based, and an infected hos
 Therefore, I often add DNS activity when reviewing a pcap to see if any of these domains are active in the traffic. This results in the following filter expression:
 
 <mark>(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)</mark>
+
+
+Identifying Non-Malicious Activity:
+----------------------------------
