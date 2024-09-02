@@ -88,4 +88,10 @@ The big three Windows web browsers (Chrome, Edge, Firefox) now have DNS over HTT
 - We can use basic+dns filter to filter and check for the FTP traffic. Wireshark filter to see the flow of events `ftp.request.command` or `ftp-data`.
 - AgentTesla is an example of malware that can use FTP to exfiltrate data stolen from an infected Windows host.
 
+## Email Traffic
+- Modern mail servers and email clients encrypt email traffic end-to-end by default. You shouldn't see email traffic from or to an external IP in an enterprise environment unless it's something like Gmail or Outlook. 
+- Wireshark filter for unsecure email traffic: `imap or pop or smtp`
 
+
+## Tor Traffic
+- Contains  HTTPS to random domain names over TCP ports 8080 and 8443.  Tor traffic by itself is inherently not malicious.
