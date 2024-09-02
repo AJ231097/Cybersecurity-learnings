@@ -40,3 +40,24 @@ Identifying Non-Malicious Activity:
 - **Email Traffic**
 - **File Transfers Over SMB**
 - **Tor Traffic**
+
+###Operating System Traffic
+If you investigate an alert for Windows Malware and traffic from the internal IP Address reveals it is not a Windows host, then we can resolve the alert. Check for the User-Agent sting by following TCP Stream of an associated packet to find out the operating system of the host.
+
+Non-malicious Windows 10 activity domains
+1) config.edge.skype.com
+2) ctldl.windowsupdate.com
+3) self.events.data.microsoft.com
+
+Windows 10 periodically downloads images to show throguh the Microsoft Store and other Microsoft apps
+
+Domain: store-images.s-microsoft.com
+
+Plugging a USB device (like a thumb drive) to your Windows 10 host causes traffic to:
+
+1) go.microsoft.com
+2) dmd.metaservices.microsoft.com
+
+But traffic to these two domains can be causd by other Windows 10 system activity
+
+Swarm Protocol is used for delivery of optimization of Windows updates. It uses TCP port 7680 for traffic between Windows clients in the same LAN.
