@@ -5,9 +5,9 @@ Filters for Web-Based Infection Traffic:
 ----------------------------------------
 
 1.  HTTP traffic over UDP port 1900 is Simple Service Discovery Protocol (SSDP). SSDP is a protocol used to discover Plug & Play devices, and it is not associated with normal web traffic. Therefore, I filter this out using the following expression:
-```shell```
-(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)</mark>
-```shell```
+
+<mark>(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)</mark>
+
 You can also use the following filter and achieve the same result:
 
 <mark>(http.request or ssl.handshake.type == 1) and !(ssdp)</mark>
