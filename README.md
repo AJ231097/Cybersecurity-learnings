@@ -17,7 +17,10 @@ You can also use the following filter and achieve the same result:
 ```
 (http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002) and !(udp.port eq 1900)
 ```
-
+3. Filter to look at the certificate issuer data for HTTPS traffic over two ip addresses or any number of ip addresses.
+```
+tls.handshake.type eq 11 and (ip.addr eq {ip_address} or ip.addr eq {ip_address})
+```
 Including the TCP SYN segments on your search reveals the infected host also attempted to connect with IP address over ports
 
 Filters for Other Types of Infection Traffic:
